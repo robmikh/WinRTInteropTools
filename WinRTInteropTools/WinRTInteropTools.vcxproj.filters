@@ -11,21 +11,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="WinRTInteropTools.cpp" />
+    <ClCompile Include="Direct3D11Device.cpp" />
+    <ClCompile Include="Direct3D11Multithread.cpp" />
+    <ClCompile Include="ImageDecoder.cpp" />
+    <ClCompile Include="CompositionGraphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Class.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="Class.idl" />
+    <ClInclude Include="WinRTInteropTools.h" />
+    <ClInclude Include="direct3d11.interop.h" />
+    <ClInclude Include="d3dHelpers.h" />
+    <ClInclude Include="composition.interop.h" />
+    <ClInclude Include="streamHelpers.h" />
+    <ClInclude Include="Direct3D11Device.h" />
+    <ClInclude Include="Direct3D11Multithread.h" />
+    <ClInclude Include="ImageDecoder.h" />
+    <ClInclude Include="CompositionGraphics.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WinRTInteropTools.def" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="readme.txt" />
+    <Midl Include="WinRTInteropTools.idl" />
   </ItemGroup>
 </Project>

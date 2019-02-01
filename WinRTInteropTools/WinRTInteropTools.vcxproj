@@ -88,38 +88,81 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+      </Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Merging metadata...</Message>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Merging metadata...</Message>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Merging metadata...</Message>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+      </Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Merging metadata...</Message>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Merging metadata...</Message>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Merging metadata...</Message>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CompositionGraphics.h" />
+    <ClInclude Include="composition.interop.h" />
+    <ClInclude Include="d3dHelpers.h" />
+    <ClInclude Include="Direct3D11Device.h" />
+    <ClInclude Include="Direct3D11Multithread.h" />
+    <ClInclude Include="ImageDecoder.h" />
+    <ClInclude Include="direct3d11.interop.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Class.h">
-      <DependentUpon>Class.idl</DependentUpon>
-    </ClInclude>
+    <ClInclude Include="streamHelpers.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CompositionGraphics.cpp" />
+    <ClCompile Include="Direct3D11Device.cpp" />
+    <ClCompile Include="Direct3D11Multithread.cpp" />
+    <ClCompile Include="ImageDecoder.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Class.cpp">
-      <DependentUpon>Class.idl</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="Class.idl" />
+    <Midl Include="WinRTInteropTools.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="WinRTInteropTools.def" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="readme.txt">
-      <DeploymentContent>false</DeploymentContent>
-    </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

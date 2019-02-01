@@ -1,0 +1,53 @@
+namespace WinRTInteropTools
+{
+    // Direct3D11
+    [default_interface]
+    runtimeclass Direct3D11Device : Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice
+    {
+        Direct3D11Device();
+
+        Boolean IsMultithreadProtected{ get; set; };
+
+        Direct3D11Multithread TryGetMultithread();
+    }
+
+    [default_interface]
+    runtimeclass ImageDecoder : Windows.Foundation.IClosable
+    {
+        ImageDecoder();
+
+        Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface DecodeStreamIntoTexture(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device,
+            Windows.Storage.Streams.IRandomAccessStream stream);
+    }
+
+    [default_interface]
+    runtimeclass Direct3D11Multithread : Windows.Foundation.IClosable
+    {
+        Windows.Foundation.IClosable Lock();
+    }
+    
+    
+    // Composition
+    [default_interface]
+    runtimeclass CompositionGraphics
+    {
+        static Windows.UI.Composition.CompositionGraphicsDevice CreateCompositionGraphicsDevice(
+            Windows.UI.Composition.Compositor compositor,
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device);
+
+        static void CopyDirect3DSurfaceIntoCompositionSurface(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device,
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface d3dSurface,
+            Windows.UI.Composition.CompositionDrawingSurface compositionSurface);
+
+        [default_overload]
+        static void ResizeSurface(
+            Windows.UI.Composition.CompositionDrawingSurface compositionSurface,
+            Windows.Foundation.Size size);
+
+        static void ResizeSurface(
+            Windows.UI.Composition.CompositionDrawingSurface compositionSurface,
+            Windows.Graphics.SizeInt32 size);
+    }
+}
