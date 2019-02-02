@@ -26,6 +26,26 @@ namespace WinRTInteropTools
     {
         Windows.Foundation.IClosable Lock();
     }
+
+    [default_interface]
+    runtimeclass SwapChain : Windows.Foundation.IClosable
+    {
+        SwapChain(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device,
+            Windows.Graphics.DirectX.DirectXPixelFormat pixelFormat,
+            Int32 numberOfBuffers,
+            Windows.Graphics.SizeInt32 size);
+        
+        Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface GetBuffer(
+            Int32 bufferIndex);
+        void Present();
+        Windows.UI.Composition.ICompositionSurface CreateSurface(
+            Windows.UI.Composition.Compositor compositor);
+        void Resize(
+            Windows.Graphics.DirectX.DirectXPixelFormat pixelFormat,
+            Int32 numberOfBuffers,
+            Windows.Graphics.SizeInt32 size);
+    }
     
     
     // Composition
