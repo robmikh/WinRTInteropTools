@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Direct3D11Device.h"
 #include "Direct3D11Multithread.h"
+#include "Direct3D11DeviceContext.h"
 
 namespace winrt::WinRTInteropTools::implementation
 {
@@ -37,6 +38,14 @@ namespace winrt::WinRTInteropTools::implementation
         }
 
         return nullptr;
+    }
+
+    WinRTInteropTools::Direct3D11DeviceContext Direct3D11Device::GetImmediateContext()
+    {
+        com_ptr<ID3D11DeviceContext> d3dContext;
+        m_d3dDevice->GetImmediateContext(d3dContext.put());
+        auto deviceContext = make<Direct3D11DeviceContext>(d3dContext);
+        return deviceContext;
     }
 
     void Direct3D11Device::Close()

@@ -12,6 +12,7 @@ namespace winrt::WinRTInteropTools::implementation
         bool IsMultithreadProtected();
         void IsMultithreadProtected(bool value);
         WinRTInteropTools::Direct3D11Multithread TryGetMultithread();
+        WinRTInteropTools::Direct3D11DeviceContext GetImmediateContext();
         void Close();
         void Trim();
 

@@ -11,4 +11,11 @@
     <Grid>
 
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="GoToStart" Label="Capture" Click="CaptureButton_Click" />
+            <AppBarButton Icon="OpenFile" Label="Image" Click="ImageButton_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

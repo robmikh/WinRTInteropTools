@@ -141,6 +141,7 @@
     <ClInclude Include="composition.interop.h" />
     <ClInclude Include="d3dHelpers.h" />
     <ClInclude Include="Direct3D11Device.h" />
+    <ClInclude Include="Direct3D11DeviceContext.h" />
     <ClInclude Include="Direct3D11Multithread.h" />
     <ClInclude Include="ImageDecoder.h" />
     <ClInclude Include="direct3d11.interop.h" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="CompositionGraphics.cpp" />
     <ClCompile Include="Direct3D11Device.cpp" />
+    <ClCompile Include="Direct3D11DeviceContext.cpp" />
     <ClCompile Include="Direct3D11Multithread.cpp" />
     <ClCompile Include="ImageDecoder.cpp" />
     <ClCompile Include="pch.cpp">

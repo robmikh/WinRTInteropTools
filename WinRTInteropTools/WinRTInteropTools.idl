@@ -9,6 +9,15 @@ namespace WinRTInteropTools
         Boolean IsMultithreadProtected{ get; set; };
 
         Direct3D11Multithread TryGetMultithread();
+        Direct3D11DeviceContext GetImmediateContext();
+    }
+
+    [default_interface]
+    runtimeclass Direct3D11DeviceContext : Windows.Foundation.IClosable
+    {
+        void CopyResource(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface destination,
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface source);
     }
 
     [default_interface]

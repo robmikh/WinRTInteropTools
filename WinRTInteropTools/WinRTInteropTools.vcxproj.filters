@@ -17,6 +17,7 @@
     <ClCompile Include="ImageDecoder.cpp" />
     <ClCompile Include="CompositionGraphics.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="Direct3D11DeviceContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="ImageDecoder.h" />
     <ClInclude Include="CompositionGraphics.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="Direct3D11DeviceContext.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WinRTInteropTools.def" />
