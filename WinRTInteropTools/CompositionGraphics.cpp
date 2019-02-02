@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "CompositionGraphics.h"
+#include "Direct3D11Device.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -26,6 +27,8 @@ namespace winrt::WinRTInteropTools::implementation
     {
         auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
         auto d3dSourceTexture = GetDXGIInterfaceFromObject<ID3D11Texture2D>(d3dSurface);
+        auto toolsDevice = make<Direct3D11Device>(d3dDevice);
+        auto multithread = toolsDevice.TryGetMultithread();
 
         com_ptr<ID3D11DeviceContext> d3dContext;
         d3dDevice->GetImmediateContext(d3dContext.put());
@@ -38,7 +41,10 @@ namespace winrt::WinRTInteropTools::implementation
         auto dxgiSurface = SurfaceBeginDraw(compositionSurface, &point);
         auto destination = dxgiSurface.as<ID3D11Texture2D>();
 
-        d3dContext->CopySubresourceRegion(destination.get(), 0, point.x, point.y, 0, d3dSourceTexture.get(), 0, NULL);
+        {
+            auto lockSession = multithread != nullptr ? multithread.Lock() : nullptr;
+            d3dContext->CopySubresourceRegion(destination.get(), 0, point.x, point.y, 0, d3dSourceTexture.get(), 0, NULL);
+        }
 
         SurfaceEndDraw(compositionSurface);
     }

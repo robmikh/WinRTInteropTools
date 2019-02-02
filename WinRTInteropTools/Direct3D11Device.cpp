@@ -10,6 +10,12 @@ namespace winrt::WinRTInteropTools::implementation
         m_d3dDevice = CreateD3DDevice();
     }
 
+    Direct3D11Device::Direct3D11Device(
+        com_ptr<ID3D11Device> d3dDevice)
+    {
+        m_d3dDevice = d3dDevice;
+    }
+
     bool Direct3D11Device::IsMultithreadProtected()
     {
         CheckClosed();

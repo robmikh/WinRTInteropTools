@@ -7,6 +7,7 @@ namespace winrt::WinRTInteropTools::implementation
     struct Direct3D11Device : Direct3D11DeviceT<Direct3D11Device, IDirect3DDxgiInterfaceAccess>
     {
         Direct3D11Device();
+        Direct3D11Device(winrt::com_ptr<ID3D11Device> d3dDevice);
         ~Direct3D11Device() { Close(); }
 
         bool IsMultithreadProtected();

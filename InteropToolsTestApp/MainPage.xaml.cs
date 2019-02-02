@@ -44,6 +44,8 @@ namespace InteropToolsTestApp
             _compositor = Window.Current.Compositor;
             _device = new Direct3D11Device();
             _deviceContext = _device.GetImmediateContext();
+            _device.IsMultithreadProtected = true;
+            _multithread = _device.TryGetMultithread();
             _decoder = new ImageDecoder();
             _compositionGraphicsDevice = CompositionGraphics.CreateCompositionGraphicsDevice(_compositor, _device);
 
@@ -113,7 +115,7 @@ namespace InteropToolsTestApp
 
         private void StartCapture(GraphicsCaptureItem item)
         {
-            _framePool = Direct3D11CaptureFramePool.Create(
+            _framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(
                 _device,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 2,
@@ -143,6 +145,7 @@ namespace InteropToolsTestApp
                 }
 
                 using (var backBuffer = _swapChain.GetBuffer(0))
+                using (var lockSession = _multithread.Lock())
                 {
                     _deviceContext.CopyResource(backBuffer, frame.Surface);
                 }
@@ -199,6 +202,7 @@ namespace InteropToolsTestApp
         private CompositionGraphicsDevice _compositionGraphicsDevice;
         private Direct3D11Device _device;
         private Direct3D11DeviceContext _deviceContext;
+        private Direct3D11Multithread _multithread;
         private ImageDecoder _decoder;
         private SwapChain _swapChain;
 
