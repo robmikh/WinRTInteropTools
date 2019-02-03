@@ -8,6 +8,9 @@ namespace WinRTInteropTools
 
         Direct3D11DeviceContext ImmediateContext{ get; };
         Direct3D11Multithread Multithread{ get; };
+
+        Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface CreateTexture2D(
+            Windows.Graphics.DirectX.Direct3D11.Direct3DSurfaceDescription description);
     }
 
     [default_interface]
@@ -56,6 +59,15 @@ namespace WinRTInteropTools
             Windows.Graphics.SizeInt32 size);
     }
     
+    // Media
+    [default_interface]
+    runtimeclass MediaGraphicsDevice : Windows.Foundation.IClosable
+    {
+        static MediaGraphicsDevice CreateFromMediaStreamSource(
+            Windows.Media.Core.MediaStreamSource mediaStreamSource);
+
+        Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice RenderingDevice{ get; set; };
+    }
     
     // Composition
     [default_interface]

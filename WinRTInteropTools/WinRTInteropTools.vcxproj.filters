@@ -18,6 +18,7 @@
     <ClCompile Include="CompositionGraphics.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Direct3D11DeviceContext.cpp" />
+    <ClCompile Include="MediaGraphicsDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="CompositionGraphics.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Direct3D11DeviceContext.h" />
+    <ClInclude Include="MediaGraphicsDevice.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WinRTInteropTools.def" />

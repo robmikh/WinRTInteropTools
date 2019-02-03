@@ -16,6 +16,7 @@
 #include <winrt/Windows.Graphics.DirectX.Direct3D11.h>
 #include <winrt/Windows.UI.Composition.h>
 #include <winrt/Windows.Storage.Streams.h>
+#include <winrt/Windows.Media.Core.h>
 
 // STL
 #include <atomic>
@@ -27,6 +28,10 @@
 
 // WIC
 #include <wincodec.h>
+
+// Media Foundation
+#include <mfidl.h>
+#include <mfapi.h>
 
 // Helpers
 #include "direct3d11.interop.h"

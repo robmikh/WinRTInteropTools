@@ -3,6 +3,12 @@
 #include "Direct3D11Multithread.h"
 #include "Direct3D11DeviceContext.h"
 
+using namespace winrt;
+using namespace Windows::Foundation;
+using namespace Windows::Graphics;
+using namespace Windows::Graphics::DirectX;
+using namespace Windows::Graphics::DirectX::Direct3D11;
+
 namespace winrt::WinRTInteropTools::implementation
 {
     Direct3D11Device::Direct3D11Device()
@@ -33,6 +39,33 @@ namespace winrt::WinRTInteropTools::implementation
         m_d3dDevice->GetImmediateContext(d3dContext.put());
         auto deviceContext = make<Direct3D11DeviceContext>(d3dContext);
         return deviceContext;
+    }
+
+    IDirect3DSurface Direct3D11Device::CreateTexture2D(
+        Direct3DSurfaceDescription const& description)
+    {
+        CheckClosed();
+
+        D3D11_TEXTURE2D_DESC desc = {};
+        desc.Width = description.Width;
+        desc.Height = description.Height;
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.Format = static_cast<DXGI_FORMAT>(description.Format);
+        desc.SampleDesc.Count = description.MultisampleDescription.Count;
+        desc.SampleDesc.Quality = description.MultisampleDescription.Quality;
+        desc.Usage = D3D11_USAGE_DEFAULT;
+        desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        desc.CPUAccessFlags = 0;
+        desc.MiscFlags = 0;
+
+        com_ptr<ID3D11Texture2D> texture;
+        check_hresult(m_d3dDevice->CreateTexture2D(&desc, nullptr, texture.put()));
+        
+        auto dxgiSurface = texture.as<IDXGISurface>();
+        auto surface = CreateDirect3DSurface(dxgiSurface.get());
+
+        return surface;
     }
 
     void Direct3D11Device::Close()
