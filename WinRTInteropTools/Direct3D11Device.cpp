@@ -2,6 +2,7 @@
 #include "Direct3D11Device.h"
 #include "Direct3D11Multithread.h"
 #include "Direct3D11DeviceContext.h"
+#include "Direct3D11Texture2D.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -41,29 +42,27 @@ namespace winrt::WinRTInteropTools::implementation
         return deviceContext;
     }
 
-    IDirect3DSurface Direct3D11Device::CreateTexture2D(
-        Direct3DSurfaceDescription const& description)
+    WinRTInteropTools::Direct3D11Texture2D Direct3D11Device::CreateTexture2D(
+        WinRTInteropTools::Direct3D11Texture2DDescription const& description)
     {
         CheckClosed();
 
         D3D11_TEXTURE2D_DESC desc = {};
-        desc.Width = description.Width;
-        desc.Height = description.Height;
-        desc.MipLevels = 1;
-        desc.ArraySize = 1;
-        desc.Format = static_cast<DXGI_FORMAT>(description.Format);
-        desc.SampleDesc.Count = description.MultisampleDescription.Count;
-        desc.SampleDesc.Quality = description.MultisampleDescription.Quality;
-        desc.Usage = D3D11_USAGE_DEFAULT;
-        desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-        desc.CPUAccessFlags = 0;
-        desc.MiscFlags = 0;
+        desc.Width = description.Base.Width;
+        desc.Height = description.Base.Height;
+        desc.MipLevels = description.MipLevels;
+        desc.ArraySize = description.ArraySize;
+        desc.Format = static_cast<DXGI_FORMAT>(description.Base.Format);
+        desc.SampleDesc.Count = description.Base.MultisampleDescription.Count;
+        desc.SampleDesc.Quality = description.Base.MultisampleDescription.Quality;
+        desc.Usage = static_cast<D3D11_USAGE>(description.Usage);
+        desc.BindFlags = static_cast<D3D11_BIND_FLAG>(description.BindFlags);
+        desc.CPUAccessFlags = static_cast<D3D11_CPU_ACCESS_FLAG>(description.CpuAccessFlags);
+        desc.MiscFlags = static_cast<D3D11_RESOURCE_MISC_FLAG>(description.MiscFlags);
 
         com_ptr<ID3D11Texture2D> texture;
         check_hresult(m_d3dDevice->CreateTexture2D(&desc, nullptr, texture.put()));
-        
-        auto dxgiSurface = texture.as<IDXGISurface>();
-        auto surface = CreateDirect3DSurface(dxgiSurface.get());
+        auto surface = make<Direct3D11Texture2D>(texture, description);
 
         return surface;
     }

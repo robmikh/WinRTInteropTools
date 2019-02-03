@@ -1,6 +1,46 @@
 namespace WinRTInteropTools
 {
     // Direct3D11
+    [flags]
+    enum Direct3D11CpuAccessFlag
+    {
+        AccessWrite = 0x10000L,
+        AccessRead = 0x20000L
+    };
+
+    [flags]
+    enum Direct3D11ResourceMiscFlag
+    {
+        GenerateMips = 0x1L,
+        Shared = 0x2L,
+        TextureCube = 0x4L,
+        DrawIndirectArgs = 0x10L,
+        BufferAllowRawViews = 0x20L,
+        BufferStructured = 0x40L,
+        ResourceClamp = 0x80L,
+        SharedKeyedMutex = 0x100L,
+        GdiCompatible = 0x200L,
+        SharedNtHandle = 0x800L,
+        RestrictedContent = 0x1000L,
+        RestrictSharedResource = 0x2000L,
+        RestrictSharedResourceDriver = 0x4000L,
+        Guarded = 0x8000L,
+        TilePool = 0x20000L,
+        Tiled = 0x40000L,
+        HwProtected = 0x80000L
+    };
+
+    struct Direct3D11Texture2DDescription
+    {
+        Windows.Graphics.DirectX.Direct3D11.Direct3DSurfaceDescription Base;
+        Int32 MipLevels;
+        Int32 ArraySize;
+        Windows.Graphics.DirectX.Direct3D11.Direct3DUsage Usage;
+        Windows.Graphics.DirectX.Direct3D11.Direct3DBindings BindFlags;
+        Direct3D11CpuAccessFlag CpuAccessFlags;
+        Direct3D11ResourceMiscFlag MiscFlags;
+    };
+
     [default_interface]
     runtimeclass Direct3D11Device : Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice
     {
@@ -9,8 +49,8 @@ namespace WinRTInteropTools
         Direct3D11DeviceContext ImmediateContext{ get; };
         Direct3D11Multithread Multithread{ get; };
 
-        Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface CreateTexture2D(
-            Windows.Graphics.DirectX.Direct3D11.Direct3DSurfaceDescription description);
+        Direct3D11Texture2D CreateTexture2D(
+            Direct3D11Texture2DDescription description);
     }
 
     [default_interface]
@@ -22,13 +62,12 @@ namespace WinRTInteropTools
     }
 
     [default_interface]
-    runtimeclass ImageDecoder : Windows.Foundation.IClosable
+    runtimeclass Direct3D11Texture2D : Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface
     {
-        ImageDecoder();
+        Direct3D11Texture2DDescription Description2D{ get; };
 
-        Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface DecodeStreamIntoTexture(
-            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device,
-            Windows.Storage.Streams.IRandomAccessStream stream);
+        static Direct3D11Texture2D CreateFromDirect3DSurface(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface surface);
     }
 
     [default_interface]
@@ -47,7 +86,7 @@ namespace WinRTInteropTools
             Windows.Graphics.DirectX.DirectXPixelFormat pixelFormat,
             Int32 numberOfBuffers,
             Windows.Graphics.SizeInt32 size);
-        
+
         Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface GetBuffer(
             Int32 bufferIndex);
         void Present();
@@ -57,6 +96,17 @@ namespace WinRTInteropTools
             Windows.Graphics.DirectX.DirectXPixelFormat pixelFormat,
             Int32 numberOfBuffers,
             Windows.Graphics.SizeInt32 size);
+    }
+
+    // WIC
+    [default_interface]
+    runtimeclass ImageDecoder : Windows.Foundation.IClosable
+    {
+        ImageDecoder();
+
+        Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface DecodeStreamIntoTexture(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device,
+            Windows.Storage.Streams.IRandomAccessStream stream);
     }
     
     // Media

@@ -4,7 +4,7 @@
 
 namespace winrt::WinRTInteropTools::implementation
 {
-    struct Direct3D11DeviceContext : Direct3D11DeviceContextT<Direct3D11DeviceContext>
+    struct Direct3D11DeviceContext : Direct3D11DeviceContextT<Direct3D11DeviceContext, IDirect3DDxgiInterfaceAccess>
     {
         Direct3D11DeviceContext(winrt::com_ptr<ID3D11DeviceContext> deviceContext);
 

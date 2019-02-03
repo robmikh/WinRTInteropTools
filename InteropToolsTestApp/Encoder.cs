@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
+using Windows.Graphics.DirectX.Direct3D11;
 using Windows.Media.Core;
 using Windows.Media.MediaProperties;
 using Windows.Media.Transcoding;
@@ -123,7 +124,17 @@ namespace InteropToolsTestApp
             {
                 using (var frame = GetNextFrame())
                 using (var lockSession = _multiThread.Lock())
-                using (var surface = _device.CreateTexture2D(frame.Surface.Description))
+                using (var sourceTexture = Direct3D11Texture2D.CreateFromDirect3DSurface(frame.Surface))
+                using (var surface = _device.CreateTexture2D(new Direct3D11Texture2DDescription()
+                {
+                    Base = sourceTexture.Description2D.Base,
+                    MipLevels = sourceTexture.Description2D.MipLevels,
+                    ArraySize = sourceTexture.Description2D.ArraySize,
+                    Usage = Direct3DUsage.Default,
+                    BindFlags = Direct3DBindings.ShaderResource,
+                    CpuAccessFlags = 0,
+                    MiscFlags = 0
+                }))
                 {
                     var timeStamp = frame.SystemRelativeTime;
                     _deviceContext.CopyResource(surface, frame.Surface);

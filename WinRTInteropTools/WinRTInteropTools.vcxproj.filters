@@ -19,6 +19,7 @@
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Direct3D11DeviceContext.cpp" />
     <ClCompile Include="MediaGraphicsDevice.cpp" />
+    <ClCompile Include="Direct3D11Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Direct3D11DeviceContext.h" />
     <ClInclude Include="MediaGraphicsDevice.h" />
+    <ClInclude Include="Direct3D11Texture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WinRTInteropTools.def" />

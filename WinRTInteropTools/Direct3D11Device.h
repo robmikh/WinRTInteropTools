@@ -12,7 +12,7 @@ namespace winrt::WinRTInteropTools::implementation
 
         WinRTInteropTools::Direct3D11DeviceContext ImmediateContext();
         WinRTInteropTools::Direct3D11Multithread Multithread();
-        Windows::Graphics::DirectX::Direct3D11::IDirect3DSurface CreateTexture2D(Windows::Graphics::DirectX::Direct3D11::Direct3DSurfaceDescription const& description);
+        WinRTInteropTools::Direct3D11Texture2D CreateTexture2D(WinRTInteropTools::Direct3D11Texture2DDescription const& description);
         void Close();
         void Trim();
 
