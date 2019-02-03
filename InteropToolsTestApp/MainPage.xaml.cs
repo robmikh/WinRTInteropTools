@@ -182,6 +182,8 @@ namespace InteropToolsTestApp
 
         private async void ImageButton_Click(object sender, RoutedEventArgs e)
         {
+            _imageBrush.Surface = null;
+
             var file = await PickImageAsync();
             if (file != null)
             {
@@ -191,10 +193,6 @@ namespace InteropToolsTestApp
                     CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, d3dSurface, _imageSurface);
                 }
                 _imageBrush.Surface = _imageSurface;
-            }
-            else
-            {
-                _imageBrush.Surface = null;
             }
         }
 
