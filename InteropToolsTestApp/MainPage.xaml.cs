@@ -97,6 +97,18 @@ namespace InteropToolsTestApp
             return file;
         }
 
+        private async Task<StorageFile> PickVideoAsync()
+        {
+            var picker = new FileSavePicker();
+            picker.SuggestedStartLocation = PickerLocationId.VideosLibrary;
+            picker.SuggestedFileName = "encodedVideo";
+            picker.DefaultFileExtension = ".mp4";
+            picker.FileTypeChoices.Add("MP4 Video", new List<string> { ".mp4" });
+
+            var file = await picker.PickSaveFileAsync();
+            return file;
+        }
+
         private void StopCapture()
         {
             if (_framePool != null)
@@ -196,6 +208,38 @@ namespace InteropToolsTestApp
             }
         }
 
+        private async void RecordButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (AppBarToggleButton)sender;
+            if (button.IsChecked.Value)
+            {
+                var picker = new GraphicsCapturePicker();
+                var item = await picker.PickSingleItemAsync();
+                if (item == null)
+                {
+                    button.IsChecked = false;
+                    return;
+                }
+
+                var file = await PickVideoAsync();
+                if (file == null)
+                {
+                    button.IsChecked = false;
+                    return;
+                }
+
+                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                using (_encoder = new Encoder(_device, item))
+                {
+                    await _encoder.EncodeAsync(stream);
+                }
+            }
+            else
+            {
+                _encoder?.Dispose();
+            }
+        }
+
         private Compositor _compositor;
         private CompositionGraphicsDevice _compositionGraphicsDevice;
         private Direct3D11Device _device;
@@ -215,5 +259,7 @@ namespace InteropToolsTestApp
         private GraphicsCaptureSession _session;
         private Direct3D11CaptureFramePool _framePool;
         private SizeInt32 _lastSize;
+
+        private Encoder _encoder;
     }
 }
