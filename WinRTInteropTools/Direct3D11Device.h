@@ -10,10 +10,8 @@ namespace winrt::WinRTInteropTools::implementation
         Direct3D11Device(winrt::com_ptr<ID3D11Device> d3dDevice);
         ~Direct3D11Device() { Close(); }
 
-        bool IsMultithreadProtected();
-        void IsMultithreadProtected(bool value);
-        WinRTInteropTools::Direct3D11Multithread TryGetMultithread();
-        WinRTInteropTools::Direct3D11DeviceContext GetImmediateContext();
+        WinRTInteropTools::Direct3D11DeviceContext ImmediateContext();
+        WinRTInteropTools::Direct3D11Multithread Multithread();
         void Close();
         void Trim();
 

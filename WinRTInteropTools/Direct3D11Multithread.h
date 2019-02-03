@@ -12,6 +12,8 @@ namespace winrt::WinRTInteropTools::implementation
         }
         ~Direct3D11Multithread() { Close(); }
 
+        bool IsMultithreadProtected();
+        void IsMultithreadProtected(bool value);
         Windows::Foundation::IClosable Lock();
         void Close();
 

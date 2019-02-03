@@ -28,7 +28,7 @@ namespace winrt::WinRTInteropTools::implementation
         auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
         auto d3dSourceTexture = GetDXGIInterfaceFromObject<ID3D11Texture2D>(d3dSurface);
         auto toolsDevice = make<Direct3D11Device>(d3dDevice);
-        auto multithread = toolsDevice.TryGetMultithread();
+        auto multithread = toolsDevice.Multithread();
 
         com_ptr<ID3D11DeviceContext> d3dContext;
         d3dDevice->GetImmediateContext(d3dContext.put());
@@ -42,7 +42,7 @@ namespace winrt::WinRTInteropTools::implementation
         auto destination = dxgiSurface.as<ID3D11Texture2D>();
 
         {
-            auto lockSession = multithread != nullptr ? multithread.Lock() : nullptr;
+            auto lockSession = multithread.Lock();
             d3dContext->CopySubresourceRegion(destination.get(), 0, point.x, point.y, 0, d3dSourceTexture.get(), 0, NULL);
         }
 

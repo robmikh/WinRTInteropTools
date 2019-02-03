@@ -3,10 +3,21 @@
 
 namespace winrt::WinRTInteropTools::implementation
 {
+    bool Direct3D11Multithread::IsMultithreadProtected()
+    {
+        CheckClosed();
+        return m_multithread->GetMultithreadProtected();
+    }
+
+    void Direct3D11Multithread::IsMultithreadProtected(bool value)
+    {
+        CheckClosed();
+        m_multithread->SetMultithreadProtected(value);
+    }
+
     Windows::Foundation::IClosable Direct3D11Multithread::Lock()
     {
         CheckClosed();
-
         auto session = make<Direct3D11MultithreadLockSession>(m_multithread);
         return session;
     }

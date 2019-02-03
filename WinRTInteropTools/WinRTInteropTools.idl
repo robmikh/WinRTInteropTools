@@ -6,10 +6,8 @@ namespace WinRTInteropTools
     {
         Direct3D11Device();
 
-        Boolean IsMultithreadProtected{ get; set; };
-
-        Direct3D11Multithread TryGetMultithread();
-        Direct3D11DeviceContext GetImmediateContext();
+        Direct3D11DeviceContext ImmediateContext{ get; };
+        Direct3D11Multithread Multithread{ get; };
     }
 
     [default_interface]
@@ -33,6 +31,8 @@ namespace WinRTInteropTools
     [default_interface]
     runtimeclass Direct3D11Multithread : Windows.Foundation.IClosable
     {
+        Boolean IsMultithreadProtected{ get; set; };
+
         Windows.Foundation.IClosable Lock();
     }
 

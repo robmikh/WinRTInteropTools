@@ -43,9 +43,9 @@ namespace InteropToolsTestApp
         {
             _compositor = Window.Current.Compositor;
             _device = new Direct3D11Device();
-            _deviceContext = _device.GetImmediateContext();
-            _device.IsMultithreadProtected = true;
-            _multithread = _device.TryGetMultithread();
+            _deviceContext = _device.ImmediateContext;
+            _multithread = _device.Multithread;
+            _multithread.IsMultithreadProtected = true;
             _decoder = new ImageDecoder();
             _compositionGraphicsDevice = CompositionGraphics.CreateCompositionGraphicsDevice(_compositor, _device);
 

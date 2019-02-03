@@ -16,38 +16,19 @@ namespace winrt::WinRTInteropTools::implementation
         m_d3dDevice = d3dDevice;
     }
 
-    bool Direct3D11Device::IsMultithreadProtected()
+    WinRTInteropTools::Direct3D11Multithread Direct3D11Device::Multithread()
     {
         CheckClosed();
 
         auto multithread = m_d3dDevice.as<ID3D11Multithread>();
-        return multithread->GetMultithreadProtected();
+        auto result = make<Direct3D11Multithread>(multithread);
+        return result;
     }
 
-    void Direct3D11Device::IsMultithreadProtected(bool value)
+    WinRTInteropTools::Direct3D11DeviceContext Direct3D11Device::ImmediateContext()
     {
         CheckClosed();
 
-        auto multithread = m_d3dDevice.as<ID3D11Multithread>();
-        multithread->SetMultithreadProtected(value);
-    }
-
-    WinRTInteropTools::Direct3D11Multithread Direct3D11Device::TryGetMultithread()
-    {
-        CheckClosed();
-
-        auto multithread = m_d3dDevice.as<ID3D11Multithread>();
-        if (multithread->GetMultithreadProtected())
-        {
-            auto result = make<Direct3D11Multithread>(multithread);
-            return result;
-        }
-
-        return nullptr;
-    }
-
-    WinRTInteropTools::Direct3D11DeviceContext Direct3D11Device::GetImmediateContext()
-    {
         com_ptr<ID3D11DeviceContext> d3dContext;
         m_d3dDevice->GetImmediateContext(d3dContext.put());
         auto deviceContext = make<Direct3D11DeviceContext>(d3dContext);
