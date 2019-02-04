@@ -124,24 +124,12 @@ namespace InteropToolsTestApp
             {
                 using (var frame = GetNextFrame())
                 using (var lockSession = _multiThread.Lock())
-                using (var sourceTexture = Direct3D11Texture2D.CreateFromDirect3DSurface(frame.Surface))
-                using (var surface = _device.CreateTexture2D(new Direct3D11Texture2DDescription()
-                {
-                    Base = sourceTexture.Description2D.Base,
-                    MipLevels = sourceTexture.Description2D.MipLevels,
-                    ArraySize = sourceTexture.Description2D.ArraySize,
-                    Usage = Direct3DUsage.Default,
-                    BindFlags = Direct3DBindings.ShaderResource,
-                    CpuAccessFlags = 0,
-                    MiscFlags = 0
-                }))
                 {
                     var timeStamp = frame.SystemRelativeTime;
-                    _deviceContext.CopyResource(surface, frame.Surface);
 
                     try
                     {
-                        var sample = MediaStreamSample.CreateFromDirect3D11Surface(surface, timeStamp);
+                        var sample = MediaStreamSample.CreateFromDirect3D11Surface(frame.Surface, timeStamp);
                         args.Request.Sample = sample;
                     }
                     catch (Exception e)
