@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package >
+  <metadata minClientVersion="2.5">
+    <id>WinRTInteropTools</id>
+    <version>0.0.0-SpecifyVersionOnCommandline</version>
+    <title>WinRTInteropTools</title>
+    <authors>Robert Mikhayelyan</authors>
+    <owners>Robert Mikhayelyan</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/robmikh/WinRTInteropTools</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>WinRTInteropTools is a collection of tools used for prototyping.</description>
+    <releaseNotes>Release notes:
+Version 0.0.4-prerelease:
+* Initial release
+
+</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+  </metadata>
+  <files>
+      <file target="build\native\WinRTInteropTools.targets" src="WinRTInteropTools.targets" />
+      <file target="build\native\WinRTInteropTools.props" src="WinRTInteropTools.props" />
+
+      <file target="lib\uap10.0" src="..\Release\WinRTInteropTools\WinRTInteropTools.winmd" />
+      <file target="lib\uap10.0\WinRTInteropTools.xml" src="..\Release\WinRTInteropTools\WinRTInteropTools.xml" />
+
+      <file target="runtimes\win10-arm\native\WinRTInteropTools.dll" src="..\ARM\Release\WinRTInteropTools\WinRTInteropTools.dll" />
+      <file target="runtimes\win10-arm\native" src="..\ARM\Release\WinRTInteropTools\WinRTInteropTools.pri" />
+      <file target="runtimes\win10-arm\native\WinRTInteropTools.pdb" src="..\ARM\Release\WinRTInteropTools\WinRTInteropTools.pdb" />
+
+      <file target="runtimes\win10-x86\native\WinRTInteropTools.dll" src="..\Release\WinRTInteropTools\WinRTInteropTools.dll" />
+      <file target="runtimes\win10-x86\native" src="..\Release\WinRTInteropTools\WinRTInteropTools.pri" />
+      <file target="runtimes\win10-x86\native\WinRTInteropTools.pdb" src="..\Release\WinRTInteropTools\WinRTInteropTools.pdb" />
+
+      <file target="runtimes\win10-x64\native\WinRTInteropTools.dll" src="..\x64\Release\WinRTInteropTools\WinRTInteropTools.dll" />
+      <file target="runtimes\win10-x64\native" src="..\x64\Release\WinRTInteropTools\WinRTInteropTools.pri" />
+      <file target="runtimes\win10-x64\native\WinRTInteropTools.pdb" src="..\x64\Release\WinRTInteropTools\WinRTInteropTools.pdb" />
+  </files>
+</package>
