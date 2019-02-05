@@ -84,6 +84,14 @@ namespace winrt::WinRTInteropTools::implementation
         dxgiDevice->Trim();
     }
 
+    WinRTInteropTools::Direct3D11Device Direct3D11Device::CreateFromDirect3D11Device(
+        IDirect3DDevice const& device)
+    {
+        auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
+        auto result = make<Direct3D11Device>(d3dDevice);
+        return result;
+    }
+
     HRESULT __stdcall Direct3D11Device::GetInterface(GUID const & id, void ** object)
     {
         CheckClosed();

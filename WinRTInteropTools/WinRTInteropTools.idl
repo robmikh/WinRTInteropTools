@@ -51,6 +51,9 @@ namespace WinRTInteropTools
 
         Direct3D11Texture2D CreateTexture2D(
             Direct3D11Texture2DDescription description);
+
+        static Direct3D11Device CreateFromDirect3D11Device(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device);
     }
 
     [default_interface]

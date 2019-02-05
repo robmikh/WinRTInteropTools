@@ -16,6 +16,8 @@ namespace winrt::WinRTInteropTools::implementation
         void Close();
         void Trim();
 
+        static WinRTInteropTools::Direct3D11Device CreateFromDirect3D11Device(Windows::Graphics::DirectX::Direct3D11::IDirect3DDevice const& device);
+
         virtual HRESULT __stdcall GetInterface(GUID const& id, void** object);
 
     private:
