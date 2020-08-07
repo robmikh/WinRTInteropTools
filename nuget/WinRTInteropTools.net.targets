@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <winrtInteropTools-Platform Condition="$(RuntimeIdentifier.EndsWith('-x64'))">x64</winrtInteropTools-Platform>
+    <winrtInteropTools-Platform Condition="$(RuntimeIdentifier.EndsWith('-x86'))">x86</winrtInteropTools-Platform>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(winrtInteropTools-Platform)' == ''">
+    <winrtInteropTools-Platform Condition="'$(Platform)' == 'Win32'">x86</winrtInteropTools-Platform>
+    <winrtInteropTools-Platform Condition="'$(Platform)' != 'Win32'">$(Platform)</winrtInteropTools-Platform>
+    <winrtInteropTools-Platform Condition="'$(Platform)' == 'AnyCPU'"></winrtInteropTools-Platform>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="WinRTInteropTools">
+      <HintPath>$(MSBuildThisFileDirectory)..\..\lib\uap10.0\WinRTInteropTools.winmd</HintPath>
+      <Implementation>WinRTInteropTools.dll</Implementation>
+    </Reference>
+    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(winrtInteropTools-Platform)\native\WinRTInteropTools.dll" Condition="'$(winrtInteropTools-Platform)' != ''" />
+    <Reference Include="WinRTInteropTools.Desktop">
+      <HintPath>$(MSBuildThisFileDirectory)..\..\lib\uap10.0\WinRTInteropTools.Desktop.winmd</HintPath>
+      <Implementation>WinRTInteropTools.dll</Implementation>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PlatformCheck" BeforeTargets="InjectReference"
+    Condition=" ( ('$(winrtInteropTools-Platform)' != 'x86') AND ('$(winrtInteropTools-Platform)' != 'ARM') AND ('$(winrtInteropTools-Platform)' != 'x64') AND ('$(winrtInteropTools-Platform)' != 'ARM64') )">
+    <Error  Text="$(MSBuildThisFileName) does not work correctly on '$(Platform)' 
+                     platform. You need to specify platform (x86, x64, ARM, or ARM64)." />
+  </Target>
+
+</Project>

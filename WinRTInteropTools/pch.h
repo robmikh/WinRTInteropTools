@@ -4,6 +4,9 @@
 #include <unknwn.h>
 #include <inspectable.h>
 
+// Must come before C++/WinRT
+#include <wil/cppwinrt.h>
+
 // WinRT
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Graphics.h>
@@ -23,6 +26,10 @@
 // STL
 #include <atomic>
 #include <memory>
+#include <string>
+
+// WIL
+#include <wil/resource.h>
 
 // DirectX
 #include <d3d11_4.h>

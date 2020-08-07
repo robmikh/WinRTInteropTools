@@ -164,6 +164,7 @@ namespace WinRTInteropTools
         static runtimeclass DispatcherQueueControllerInterop
         {
             static Windows.System.DispatcherQueueController CreateDispatcherQueueControllerForCurrentThread();
+            static Int32 PumpMessagesIndefinitely();
         }
     }
 }

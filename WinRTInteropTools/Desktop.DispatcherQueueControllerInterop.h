@@ -8,6 +8,7 @@ namespace winrt::WinRTInteropTools::Desktop::implementation
         DispatcherQueueControllerInterop() = default;
 
         static Windows::System::DispatcherQueueController CreateDispatcherQueueControllerForCurrentThread();
+        static int PumpMessagesIndefinitely();
     };
 }
 namespace winrt::WinRTInteropTools::Desktop::factory_implementation

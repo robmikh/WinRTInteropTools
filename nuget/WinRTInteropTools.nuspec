@@ -11,6 +11,9 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>WinRTInteropTools is a collection of tools used for prototyping.</description>
     <releaseNotes>Release notes:
+Version 0.0.6-prerelease:
+* Win32 support
+
 Version 0.0.4-prerelease:
 * Initial release
 
@@ -18,15 +21,14 @@ Version 0.0.4-prerelease:
     <copyright>Copyright 2019</copyright>
   </metadata>
   <files>
-      <file target="build\native\WinRTInteropTools.targets" src="WinRTInteropTools.targets" />
+      <file target="build\native\WinRTInteropTools.targets" src="WinRTInteropTools.native.targets" />
       <file target="build\native\WinRTInteropTools.props" src="WinRTInteropTools.props" />
 
-      <file target="build\netcoreapp3.1\WinRTInteropTools.targets"  src="WinRTInteropTools.targets" />
-      <file target="build\netcoreapp3.0\WinRTInteropTools.targets"  src="WinRTInteropTools.targets" />
-      <file target="build\net45\WinRTInteropTools.targets"          src="WinRTInteropTools.targets" />
-      <file target="build\win10\WinRTInteropTools.targets"          src="WinRTInteropTools.targets" />
+      <file target="build\netcoreapp3.0\WinRTInteropTools.targets"  src="WinRTInteropTools.net.targets" />
+      <file target="build\net45\WinRTInteropTools.targets"          src="WinRTInteropTools.net.targets" />
 
       <file target="lib\uap10.0" src="..\Release\WinRTInteropTools\WinRTInteropTools.winmd" />
+      <file target="lib\uap10.0" src="..\Release\WinRTInteropTools\WinRTInteropTools.Desktop.winmd" />
       <file target="lib\uap10.0\WinRTInteropTools.xml" src="..\Release\WinRTInteropTools\WinRTInteropTools.xml" />
 
       <file target="runtimes\win10-arm\native\WinRTInteropTools.dll" src="..\ARM\Release\WinRTInteropTools\WinRTInteropTools.dll" />
