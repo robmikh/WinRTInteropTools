@@ -20,6 +20,9 @@
     <ClCompile Include="Direct3D11DeviceContext.cpp" />
     <ClCompile Include="MediaGraphicsDevice.cpp" />
     <ClCompile Include="Direct3D11Texture2D.cpp" />
+    <ClCompile Include="Desktop.CaptureItemInterop.cpp" />
+    <ClCompile Include="Desktop.CompositiorDesktopInterop.cpp" />
+    <ClCompile Include="Desktop.DispatcherQueueControllerInterop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -35,6 +38,9 @@
     <ClInclude Include="Direct3D11DeviceContext.h" />
     <ClInclude Include="MediaGraphicsDevice.h" />
     <ClInclude Include="Direct3D11Texture2D.h" />
+    <ClInclude Include="Desktop.CaptureItemInterop.h" />
+    <ClInclude Include="Desktop.CompositiorDesktopInterop.h" />
+    <ClInclude Include="Desktop.DispatcherQueueControllerInterop.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WinRTInteropTools.def" />

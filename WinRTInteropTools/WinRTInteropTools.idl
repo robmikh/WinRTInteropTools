@@ -144,4 +144,26 @@ namespace WinRTInteropTools
             Windows.UI.Composition.CompositionDrawingSurface compositionSurface,
             Windows.Graphics.SizeInt32 size);
     }
+
+    namespace Desktop
+    {
+        [default_interface]
+        static runtimeclass CaptureItemInterop
+        {
+            static Windows.Graphics.Capture.GraphicsCaptureItem CreateForWindow(UInt64 windowHandle);
+            static Windows.Graphics.Capture.GraphicsCaptureItem CreateForMonitor(UInt64 monitorHandle);
+        }
+
+        [default_interface]
+        static runtimeclass CompositiorDesktopInterop
+        {
+            static Windows.UI.Composition.Desktop.DesktopWindowTarget CreateWindowTarget(Windows.UI.Composition.Compositor compositor, UInt64 windowHandle, Boolean isTopMost);
+        }
+
+        [default_interface]
+        static runtimeclass DispatcherQueueControllerInterop
+        {
+            static Windows.System.DispatcherQueueController CreateDispatcherQueueControllerForCurrentThread();
+        }
+    }
 }

@@ -1,22 +1,24 @@
-﻿//
-// pch.h
-// Header for platform projection include files
-//
+﻿#pragma once
 
-#pragma once
-
-// Interop support
+// Windows SDK
 #include <unknwn.h>
 #include <inspectable.h>
 
 // WinRT
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Graphics.h>
+#include <winrt/Windows.Graphics.Capture.h>
 #include <winrt/Windows.Graphics.DirectX.h>
 #include <winrt/Windows.Graphics.DirectX.Direct3D11.h>
 #include <winrt/Windows.UI.Composition.h>
+#include <winrt/Windows.UI.Composition.Desktop.h>
+#include <winrt/Windows.System.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.Media.Core.h>
+
+#include <Windows.Graphics.Capture.Interop.h>
+#include <windows.ui.composition.interop.h>
+#include <DispatcherQueue.h>
 
 // STL
 #include <atomic>
