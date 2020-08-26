@@ -41,6 +41,23 @@ namespace WinRTInteropTools
         Direct3D11ResourceMiscFlag MiscFlags;
     };
 
+    struct PositionUInt32
+    {
+        UInt32 X;
+        UInt32 Y;
+        UInt32 Z;
+    };
+
+    struct Direct3D11Box
+    {
+        UInt32 Left;
+        UInt32 Top;
+        UInt32 Front;
+        UInt32 Right;
+        UInt32 Bottom;
+        UInt32 Back;
+    };
+
     [default_interface]
     runtimeclass Direct3D11Device : Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice
     {
@@ -62,6 +79,23 @@ namespace WinRTInteropTools
         void CopyResource(
             Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface destination,
             Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface source);
+
+        [method_name("CopySubresourceRegion")]
+        void CopySubresourceRegion(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface destination,
+            UInt32 destinationSubresource,
+            PositionUInt32 destinationPosition,
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface source,
+            UInt32 sourceSubresource,
+            Direct3D11Box sourceBox);
+
+        [method_name("CopySubresourceRegionFull")]
+        void CopySubresourceRegion(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface destination,
+            UInt32 destinationSubresource,
+            PositionUInt32 destinationPosition,
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface source,
+            UInt32 sourceSubresource);
     }
 
     [default_interface]
