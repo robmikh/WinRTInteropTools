@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <package >
-  <metadata minClientVersion="2.5">
+  <metadata minClientVersion="5.3">
     <id>WinRTInteropTools</id>
     <version>0.0.0-SpecifyVersionOnCommandline</version>
     <title>WinRTInteropTools</title>
     <authors>Robert Mikhayelyan</authors>
     <owners>Robert Mikhayelyan</owners>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/robmikh/WinRTInteropTools</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>WinRTInteropTools is a collection of tools used for prototyping.</description>
     <releaseNotes>Release notes:
+Version 0.0.7-prerelease:
+* Added CopySubresourceRegion
+
 Version 0.0.6-prerelease:
 * Win32 support
 
@@ -19,6 +22,10 @@ Version 0.0.4-prerelease:
 
 </releaseNotes>
     <copyright>Copyright 2019</copyright>
+    <dependencies>
+      <group targetFramework="UAP10.0">
+      </group>
+    </dependencies>
   </metadata>
   <files>
       <file target="build\native\WinRTInteropTools.targets" src="WinRTInteropTools.native.targets" />
