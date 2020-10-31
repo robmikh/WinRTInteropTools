@@ -10,8 +10,11 @@ using Windows.Foundation.Collections;
 using Windows.Graphics;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
+using Windows.Graphics.DirectX.Direct3D11;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -23,13 +26,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WinRTInteropTools;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace InteropToolsTestApp
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
@@ -237,6 +235,74 @@ namespace InteropToolsTestApp
             else
             {
                 _encoder?.Dispose();
+            }
+        }
+
+        private async void ScreenshotButton_Click(object sender, RoutedEventArgs e)
+        {
+            var filePicker = new FileSavePicker();
+            filePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            filePicker.SuggestedFileName = "screenshot";
+            filePicker.DefaultFileExtension = ".png";
+            filePicker.FileTypeChoices.Add("PNG Image", new string[] { ".png" });
+            var file = await filePicker.PickSaveFileAsync();
+
+            if (file != null)
+            {
+                var capturePicker = new GraphicsCapturePicker();
+                var item = await capturePicker.PickSingleItemAsync();
+
+                if (item != null)
+                {
+                    var framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(
+                        _device,
+                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                        1,
+                        item.Size);
+                    var session = framePool.CreateCaptureSession(item);
+
+                    var completionSource = new TaskCompletionSource<Direct3D11Texture2D>();
+                    framePool.FrameArrived += (s, a) =>
+                    {
+                        using (var frame = s.TryGetNextFrame())
+                        {
+                            var frameTexture = Direct3D11Texture2D.CreateFromDirect3DSurface(frame.Surface);
+                            var description = frameTexture.Description2D;
+                            description.Usage = Direct3DUsage.Staging;
+                            description.BindFlags = 0;
+                            description.CpuAccessFlags = Direct3D11CpuAccessFlag.AccessRead;
+                            description.MiscFlags = 0;
+                            var copyTexture = _device.CreateTexture2D(description);
+
+                            _deviceContext.CopyResource(copyTexture, frameTexture);
+
+                            session.Dispose();
+                            framePool.Dispose();
+
+                            completionSource.SetResult(copyTexture);
+                        }
+                    };
+
+                    session.StartCapture();
+                    var texture = await completionSource.Task;
+                    var bits = texture.GetBytes();
+
+                    using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+                        encoder.SetPixelData(
+                            BitmapPixelFormat.Bgra8,
+                            BitmapAlphaMode.Premultiplied,
+                            (uint)item.Size.Width,
+                            (uint)item.Size.Height,
+                            1.0,
+                            1.0,
+                            bits);
+                        await encoder.FlushAsync();
+                    }
+
+                    await Launcher.LaunchFileAsync(file);
+                }
             }
         }
 

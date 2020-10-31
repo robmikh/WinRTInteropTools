@@ -105,6 +105,8 @@ namespace WinRTInteropTools
 
         static Direct3D11Texture2D CreateFromDirect3DSurface(
             Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface surface);
+
+        UInt8[] GetBytes();
     }
 
     [default_interface]

@@ -11,6 +11,7 @@ namespace winrt::WinRTInteropTools::implementation
             WinRTInteropTools::Direct3D11Texture2DDescription const& description);
 
         WinRTInteropTools::Direct3D11Texture2DDescription Description2D();
+        com_array<uint8_t> GetBytes();
         void Close();
         Windows::Graphics::DirectX::Direct3D11::Direct3DSurfaceDescription Description();
 

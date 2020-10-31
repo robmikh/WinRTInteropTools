@@ -12,6 +12,9 @@
     <description>WinRTInteropTools is a collection of tools used for prototyping.</description>
     <releaseNotes>Release notes:
 Version 0.0.7-prerelease:
+* Add GetBytes to Direct3D11Texture2D
+
+Version 0.0.7-prerelease:
 * Added CopySubresourceRegion
 
 Version 0.0.6-prerelease:
