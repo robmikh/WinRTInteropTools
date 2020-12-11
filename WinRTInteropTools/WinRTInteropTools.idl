@@ -69,6 +69,17 @@ namespace WinRTInteropTools
         Direct3D11Texture2D CreateTexture2D(
             Direct3D11Texture2DDescription description);
 
+        [method_name("CreateTexture2DWithData")]
+        Direct3D11Texture2D CreateTexture2D(
+            Direct3D11Texture2DDescription description,
+            UInt8[] data);
+
+        [method_name("CreateTexture2DWithDataAndPitch")]
+        Direct3D11Texture2D CreateTexture2D(
+            Direct3D11Texture2DDescription description,
+            UInt8[] data,
+            UInt32 pitch);
+
         static Direct3D11Device CreateFromDirect3D11Device(
             Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device);
     }

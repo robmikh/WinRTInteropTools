@@ -18,6 +18,7 @@
             <AppBarButton Icon="OpenFile" Label="Image" Click="ImageButton_Click" />
             <AppBarToggleButton Icon="Video" Label="Record" Click="RecordButton_Click" />
             <AppBarButton Icon="Camera"  Label="Screenshot" Click="ScreenshotButton_Click" />
+            <AppBarButton Icon="Pictures" Label="Image 2" Click="ImageButton2_Click" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

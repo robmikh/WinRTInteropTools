@@ -67,6 +67,50 @@ namespace winrt::WinRTInteropTools::implementation
         return surface;
     }
 
+    WinRTInteropTools::Direct3D11Texture2D Direct3D11Device::CreateTexture2D(
+        WinRTInteropTools::Direct3D11Texture2DDescription const& description, 
+        array_view<uint8_t const> data)
+    {
+        CheckClosed();
+
+        // Calculate the pitch
+        auto bytesPerPixel = GetBytesPerPixel(static_cast<DXGI_FORMAT>(description.Base.Format));
+        auto pitch = description.Base.Width * bytesPerPixel;
+
+        return CreateTexture2D(description, data, pitch);
+    }
+
+    WinRTInteropTools::Direct3D11Texture2D Direct3D11Device::CreateTexture2D(
+        WinRTInteropTools::Direct3D11Texture2DDescription const& description, 
+        array_view<uint8_t const> data, 
+        uint32_t pitch)
+    {
+        CheckClosed();
+
+        D3D11_TEXTURE2D_DESC desc = {};
+        desc.Width = description.Base.Width;
+        desc.Height = description.Base.Height;
+        desc.MipLevels = description.MipLevels;
+        desc.ArraySize = description.ArraySize;
+        desc.Format = static_cast<DXGI_FORMAT>(description.Base.Format);
+        desc.SampleDesc.Count = description.Base.MultisampleDescription.Count;
+        desc.SampleDesc.Quality = description.Base.MultisampleDescription.Quality;
+        desc.Usage = static_cast<D3D11_USAGE>(description.Usage);
+        desc.BindFlags = static_cast<D3D11_BIND_FLAG>(description.BindFlags);
+        desc.CPUAccessFlags = static_cast<D3D11_CPU_ACCESS_FLAG>(description.CpuAccessFlags);
+        desc.MiscFlags = static_cast<D3D11_RESOURCE_MISC_FLAG>(description.MiscFlags);
+
+        D3D11_SUBRESOURCE_DATA initialData = {};
+        initialData.pSysMem = data.data();
+        initialData.SysMemPitch = pitch;
+
+        com_ptr<ID3D11Texture2D> texture;
+        check_hresult(m_d3dDevice->CreateTexture2D(&desc, &initialData, texture.put()));
+        auto surface = make<Direct3D11Texture2D>(texture, description);
+
+        return surface;
+    }
+
     void Direct3D11Device::Close()
     {
         auto expected = false;

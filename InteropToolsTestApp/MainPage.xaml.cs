@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -303,6 +304,45 @@ namespace InteropToolsTestApp
 
                     await Launcher.LaunchFileAsync(file);
                 }
+            }
+        }
+
+        private async void ImageButton2_Click(object sender, RoutedEventArgs e)
+        {
+            _imageBrush.Surface = null;
+
+            var file = await PickImageAsync();
+            if (file != null)
+            {
+                using (var stream = await file.OpenReadAsync())
+                {
+                    var decoder = await BitmapDecoder.CreateAsync(stream);
+                    var frame = await decoder.GetFrameAsync(0);
+                    var width = frame.PixelWidth;
+                    var height = frame.PixelHeight;
+                    Debug.Assert(frame.BitmapPixelFormat == BitmapPixelFormat.Bgra8);
+
+                    var pixelData = await frame.GetPixelDataAsync();
+                    var bits = pixelData.DetachPixelData();
+
+                    var description = new Direct3D11Texture2DDescription();
+                    description.Base = new Direct3DSurfaceDescription();
+                    description.Base.Format = DirectXPixelFormat.B8G8R8A8UIntNormalized;
+                    description.Base.Width = (int)width;
+                    description.Base.Height = (int)height;
+                    description.Base.MultisampleDescription = new Direct3DMultisampleDescription();
+                    description.Base.MultisampleDescription.Count = 1;
+                    description.Base.MultisampleDescription.Quality = 0;
+                    description.ArraySize = 1;
+                    description.BindFlags = 0;
+                    description.CpuAccessFlags = 0;
+                    description.MiscFlags = 0;
+                    description.MipLevels = 1;
+
+                    var texture = _device.CreateTexture2D(description, bits);
+                    CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
+                }
+                _imageBrush.Surface = _imageSurface;
             }
         }
 
