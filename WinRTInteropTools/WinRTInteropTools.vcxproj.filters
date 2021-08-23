@@ -23,6 +23,7 @@
     <ClCompile Include="Desktop.CaptureItemInterop.cpp" />
     <ClCompile Include="Desktop.CompositiorDesktopInterop.cpp" />
     <ClCompile Include="Desktop.DispatcherQueueControllerInterop.cpp" />
+    <ClCompile Include="Direct3D11RenderTargetView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="Desktop.CaptureItemInterop.h" />
     <ClInclude Include="Desktop.CompositiorDesktopInterop.h" />
     <ClInclude Include="Desktop.DispatcherQueueControllerInterop.h" />
+    <ClInclude Include="Direct3D11RenderTargetView.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WinRTInteropTools.def" />

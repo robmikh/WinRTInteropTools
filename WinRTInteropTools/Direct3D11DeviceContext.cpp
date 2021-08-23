@@ -58,6 +58,18 @@ namespace winrt::WinRTInteropTools::implementation
             nullptr);
     }
 
+    void Direct3D11DeviceContext::ClearRenderTargetView(
+        WinRTInteropTools::Direct3D11RenderTargetView const& renderTargetView, 
+        Windows::UI::Color const& color)
+    {
+        CheckClosed();
+
+        std::array<float,4> colorf{ color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f  };
+
+        auto d3dRTV = GetDXGIInterfaceFromObject<ID3D11RenderTargetView>(renderTargetView);
+        m_deviceContext->ClearRenderTargetView(d3dRTV.get(), colorf.data());
+    }
+
     void Direct3D11DeviceContext::CopySubResourceRegionInternal(
         IDirect3DSurface const& destination,
         uint32_t destinationSubresource,

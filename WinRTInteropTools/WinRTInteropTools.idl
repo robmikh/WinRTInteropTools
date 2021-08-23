@@ -58,6 +58,25 @@ namespace WinRTInteropTools
         UInt32 Back;
     };
 
+    enum Direct3D11RenderTargetViewDimension
+    {
+        Unknown = 0,
+        Buffer = 1,
+        Texture1D = 2,
+        Texture1DArray = 3,
+        Texture2D = 4,
+        Texture2DArray = 5,
+        Texture2DMS = 6,
+        Texture2DMSArray = 7,
+        Texture3D = 8
+    };
+
+    struct Direct3D11RenderTargetViewDescription
+    {
+        Windows.Graphics.DirectX.DirectXPixelFormat Format;
+        Direct3D11RenderTargetViewDimension ViewDimension;
+    };
+
     [default_interface]
     runtimeclass Direct3D11Device : Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice
     {
@@ -79,6 +98,9 @@ namespace WinRTInteropTools
             Direct3D11Texture2DDescription description,
             UInt8[] data,
             UInt32 pitch);
+
+        Direct3D11RenderTargetView CreateRenderTargetView(
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface resource);
 
         static Direct3D11Device CreateFromDirect3D11Device(
             Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device);
@@ -107,6 +129,10 @@ namespace WinRTInteropTools
             PositionUInt32 destinationPosition,
             Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface source,
             UInt32 sourceSubresource);
+
+        void ClearRenderTargetView(
+            Direct3D11RenderTargetView renderTargetView,
+            Windows.UI.Color color);
     }
 
     [default_interface]
@@ -118,6 +144,12 @@ namespace WinRTInteropTools
             Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface surface);
 
         UInt8[] GetBytes();
+    }
+
+    [default_interface]
+    runtimeclass Direct3D11RenderTargetView : Windows.Foundation.IClosable
+    {
+        Direct3D11RenderTargetViewDescription Description { get; };
     }
 
     [default_interface]

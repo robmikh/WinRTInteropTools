@@ -3,6 +3,7 @@
 #include "Direct3D11Multithread.h"
 #include "Direct3D11DeviceContext.h"
 #include "Direct3D11Texture2D.h"
+#include "Direct3D11RenderTargetView.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -109,6 +110,24 @@ namespace winrt::WinRTInteropTools::implementation
         auto surface = make<Direct3D11Texture2D>(texture, description);
 
         return surface;
+    }
+
+    WinRTInteropTools::Direct3D11RenderTargetView Direct3D11Device::CreateRenderTargetView(Windows::Graphics::DirectX::Direct3D11::IDirect3DSurface const& resource)
+    {
+        CheckClosed();
+
+        winrt::com_ptr<ID3D11RenderTargetView> renderTargetView;
+        auto d3dResource = GetDXGIInterfaceFromObject<ID3D11Resource>(resource);
+        winrt::check_hresult(m_d3dDevice->CreateRenderTargetView(d3dResource.get(), nullptr, renderTargetView.put()));
+
+        D3D11_RENDER_TARGET_VIEW_DESC desc = {};
+        renderTargetView->GetDesc(&desc);
+        Direct3D11RenderTargetViewDescription winRTDesc = {};
+        winRTDesc.Format = static_cast<DirectXPixelFormat>(desc.Format);
+        winRTDesc.ViewDimension = static_cast<Direct3D11RenderTargetViewDimension>(desc.ViewDimension);
+
+        auto view = make<Direct3D11RenderTargetView>(renderTargetView, winRTDesc);
+        return view;
     }
 
     void Direct3D11Device::Close()

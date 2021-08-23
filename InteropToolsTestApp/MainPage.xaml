@@ -19,6 +19,7 @@
             <AppBarToggleButton Icon="Video" Label="Record" Click="RecordButton_Click" />
             <AppBarButton Icon="Camera"  Label="Screenshot" Click="ScreenshotButton_Click" />
             <AppBarButton Icon="Pictures" Label="Image 2" Click="ImageButton2_Click" />
+            <AppBarButton Icon="Clear" Label="Clear RTV" Click="ClearRTVButton_Click" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

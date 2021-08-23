@@ -22,6 +22,7 @@ namespace winrt::WinRTInteropTools::implementation
             WinRTInteropTools::PositionUInt32 const& destinationPosition, 
             Windows::Graphics::DirectX::Direct3D11::IDirect3DSurface const& source, 
             uint32_t sourceSubresource);
+        void ClearRenderTargetView(WinRTInteropTools::Direct3D11RenderTargetView const& renderTargetView, Windows::UI::Color const& color);
         void Close();
 
         virtual HRESULT __stdcall GetInterface(GUID const& id, void** object);

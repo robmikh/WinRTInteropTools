@@ -15,6 +15,7 @@ namespace winrt::WinRTInteropTools::implementation
         WinRTInteropTools::Direct3D11Texture2D CreateTexture2D(WinRTInteropTools::Direct3D11Texture2DDescription const& description);
         WinRTInteropTools::Direct3D11Texture2D CreateTexture2D(WinRTInteropTools::Direct3D11Texture2DDescription const& description, array_view<uint8_t const> data);
         WinRTInteropTools::Direct3D11Texture2D CreateTexture2D(WinRTInteropTools::Direct3D11Texture2DDescription const& description, array_view<uint8_t const> data, uint32_t pitch);
+        WinRTInteropTools::Direct3D11RenderTargetView CreateRenderTargetView(Windows::Graphics::DirectX::Direct3D11::IDirect3DSurface const& resource);
         void Close();
         void Trim();
 

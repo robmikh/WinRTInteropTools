@@ -16,6 +16,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -344,6 +345,35 @@ namespace InteropToolsTestApp
                 }
                 _imageBrush.Surface = _imageSurface;
             }
+        }
+
+        private void ClearRTVButton_Click(object sender, RoutedEventArgs e)
+        {
+            _imageBrush.Surface = null;
+
+            var width = 200;
+            var height = 150;
+
+            var description = new Direct3D11Texture2DDescription();
+            description.Base = new Direct3DSurfaceDescription();
+            description.Base.Format = DirectXPixelFormat.B8G8R8A8UIntNormalized;
+            description.Base.Width = width;
+            description.Base.Height = height;
+            description.Base.MultisampleDescription = new Direct3DMultisampleDescription();
+            description.Base.MultisampleDescription.Count = 1;
+            description.Base.MultisampleDescription.Quality = 0;
+            description.ArraySize = 1;
+            description.BindFlags = Direct3DBindings.RenderTarget;
+            description.CpuAccessFlags = 0;
+            description.MiscFlags = 0;
+            description.MipLevels = 1;
+
+            var texture = _device.CreateTexture2D(description);
+            var renderTargetView = _device.CreateRenderTargetView(texture);
+            _deviceContext.ClearRenderTargetView(renderTargetView, Colors.Orange);
+            CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
+
+            _imageBrush.Surface = _imageSurface;
         }
 
         private Compositor _compositor;
