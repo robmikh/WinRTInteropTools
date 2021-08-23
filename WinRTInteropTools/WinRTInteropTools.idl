@@ -180,6 +180,17 @@ namespace WinRTInteropTools
             Windows.Graphics.SizeInt32 size);
     }
 
+    [default_interface]
+    runtimeclass DeviceLostWatcher
+    {
+        DeviceLostWatcher();
+
+        Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice CurrentlyWatchedDevice { get; };
+        void WatchDevice(Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device);
+        void StopWatchingCurrentDevice();
+        event Windows.Foundation.EventHandler<Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice> DeviceLost;
+    }
+
     // WIC
     [default_interface]
     runtimeclass ImageDecoder : Windows.Foundation.IClosable
@@ -222,6 +233,13 @@ namespace WinRTInteropTools
         static void ResizeSurface(
             Windows.UI.Composition.CompositionDrawingSurface compositionSurface,
             Windows.Graphics.SizeInt32 size);
+
+        static Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice GetRenderingDevice(
+            Windows.UI.Composition.CompositionGraphicsDevice compGraphics);
+
+        static void SetRenderingDevice(
+            Windows.UI.Composition.CompositionGraphicsDevice compGraphics,
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device);
     }
 
     namespace Desktop

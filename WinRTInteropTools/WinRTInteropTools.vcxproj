@@ -175,6 +175,7 @@
     <ClInclude Include="Desktop.CaptureItemInterop.h" />
     <ClInclude Include="Desktop.CompositiorDesktopInterop.h" />
     <ClInclude Include="Desktop.DispatcherQueueControllerInterop.h" />
+    <ClInclude Include="DeviceLostWatcher.h" />
     <ClInclude Include="Direct3D11Device.h" />
     <ClInclude Include="Direct3D11DeviceContext.h" />
     <ClInclude Include="Direct3D11Multithread.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="Desktop.CaptureItemInterop.cpp" />
     <ClCompile Include="Desktop.CompositiorDesktopInterop.cpp" />
     <ClCompile Include="Desktop.DispatcherQueueControllerInterop.cpp" />
+    <ClCompile Include="DeviceLostWatcher.cpp" />
     <ClCompile Include="Direct3D11Device.cpp" />
     <ClCompile Include="Direct3D11DeviceContext.cpp" />
     <ClCompile Include="Direct3D11Multithread.cpp" />

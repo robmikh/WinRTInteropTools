@@ -24,6 +24,7 @@
     <ClCompile Include="Desktop.CompositiorDesktopInterop.cpp" />
     <ClCompile Include="Desktop.DispatcherQueueControllerInterop.cpp" />
     <ClCompile Include="Direct3D11RenderTargetView.cpp" />
+    <ClCompile Include="DeviceLostWatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Desktop.CompositiorDesktopInterop.h" />
     <ClInclude Include="Desktop.DispatcherQueueControllerInterop.h" />
     <ClInclude Include="Direct3D11RenderTargetView.h" />
+    <ClInclude Include="DeviceLostWatcher.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WinRTInteropTools.def" />

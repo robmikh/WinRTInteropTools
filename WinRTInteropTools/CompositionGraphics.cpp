@@ -62,4 +62,23 @@ namespace winrt::WinRTInteropTools::implementation
     {
         ::ResizeSurface(compositionSurface, size);
     }
+
+    IDirect3DDevice CompositionGraphics::GetRenderingDevice(
+        CompositionGraphicsDevice const& compGraphics)
+    {
+        auto graphicsDeviceInterop = compGraphics.as<ABI::Windows::UI::Composition::ICompositionGraphicsDeviceInterop>();
+        com_ptr<::IUnknown> unknown;
+        check_hresult(graphicsDeviceInterop->GetRenderingDevice(unknown.put()));
+        auto d3dDevice = unknown.as<ID3D11Device>();
+        return make<Direct3D11Device>(d3dDevice);
+    }
+
+    void CompositionGraphics::SetRenderingDevice(
+        CompositionGraphicsDevice const& compGraphics, 
+        IDirect3DDevice const& device)
+    {
+        auto graphicsDeviceInterop = compGraphics.as<ABI::Windows::UI::Composition::ICompositionGraphicsDeviceInterop>();
+        auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
+        check_hresult(graphicsDeviceInterop->SetRenderingDevice(d3dDevice.get()));
+    }
 }

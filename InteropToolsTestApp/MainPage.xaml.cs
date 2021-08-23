@@ -83,6 +83,10 @@ namespace InteropToolsTestApp
                 new SizeInt32() { Width = 1, Height = 1 });
             var surface = _swapChain.CreateSurface(_compositor);
             _captureBrush.Surface = surface;
+
+            _deviceLostWatcher = new DeviceLostWatcher();
+            _deviceLostWatcher.DeviceLost += OnDeviceLost;
+            _deviceLostWatcher.WatchDevice(_device);
         }
 
         private async Task<StorageFile> PickImageAsync()
@@ -347,13 +351,8 @@ namespace InteropToolsTestApp
             }
         }
 
-        private void ClearRTVButton_Click(object sender, RoutedEventArgs e)
+        private Direct3D11Texture2D CreateSolidColorTexture(int width, int height, Color color)
         {
-            _imageBrush.Surface = null;
-
-            var width = 200;
-            var height = 150;
-
             var description = new Direct3D11Texture2DDescription();
             description.Base = new Direct3DSurfaceDescription();
             description.Base.Format = DirectXPixelFormat.B8G8R8A8UIntNormalized;
@@ -369,10 +368,55 @@ namespace InteropToolsTestApp
             description.MipLevels = 1;
 
             var texture = _device.CreateTexture2D(description);
-            var renderTargetView = _device.CreateRenderTargetView(texture);
-            _deviceContext.ClearRenderTargetView(renderTargetView, Colors.Orange);
+            using (var renderTargetView = _device.CreateRenderTargetView(texture))
+            {
+                _deviceContext.ClearRenderTargetView(renderTargetView, color);
+            }
+            return texture;
+        }
+
+        private void ClearRTVButton_Click(object sender, RoutedEventArgs e)
+        {
+            _imageBrush.Surface = null;
+
+            var width = 200;
+            var height = 150;
+
+            var texture = CreateSolidColorTexture(width, height, Colors.Orange);
             CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
 
+            _imageBrush.Surface = _imageSurface;
+        }
+
+        private void OnDeviceLost(object sender, IDirect3DDevice e)
+        {
+            _device = new Direct3D11Device();
+            _deviceContext = _device.ImmediateContext;
+            _multithread = _device.Multithread;
+            _deviceLostWatcher.WatchDevice(_device);
+            CompositionGraphics.SetRenderingDevice(_compositionGraphicsDevice, _device);
+        }
+
+        private void DeviceLostButton_Click(object sender, RoutedEventArgs e)
+        {
+            _compositionGraphicsDevice.RenderingDeviceReplaced -= DeviceLostButton_OnDeviceLost;
+
+            var width = 200;
+            var height = 150;
+            var texture = CreateSolidColorTexture(width, height, Colors.Green);
+            CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
+            _imageBrush.Surface = _imageSurface;
+
+            _compositionGraphicsDevice.RenderingDeviceReplaced += DeviceLostButton_OnDeviceLost;
+        }
+
+        private void DeviceLostButton_OnDeviceLost(CompositionGraphicsDevice sender, RenderingDeviceReplacedEventArgs args)
+        {
+            _compositionGraphicsDevice.RenderingDeviceReplaced -= DeviceLostButton_OnDeviceLost;
+            var width = 200;
+            var height = 150;
+            var texture = CreateSolidColorTexture(width, height, Colors.Red);
+            CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
             _imageBrush.Surface = _imageSurface;
         }
 
@@ -397,5 +441,7 @@ namespace InteropToolsTestApp
         private SizeInt32 _lastSize;
 
         private Encoder _encoder;
+
+        private DeviceLostWatcher _deviceLostWatcher;
     }
 }
