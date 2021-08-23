@@ -351,6 +351,11 @@ namespace InteropToolsTestApp
             }
         }
 
+        private float[] ConvertColorToColorF(Color color)
+        {
+            return new float[] { color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f };
+        }
+
         private Direct3D11Texture2D CreateSolidColorTexture(int width, int height, Color color)
         {
             var description = new Direct3D11Texture2DDescription();
@@ -370,7 +375,7 @@ namespace InteropToolsTestApp
             var texture = _device.CreateTexture2D(description);
             using (var renderTargetView = _device.CreateRenderTargetView(texture))
             {
-                _deviceContext.ClearRenderTargetView(renderTargetView, color);
+                _deviceContext.ClearRenderTargetView(renderTargetView, ConvertColorToColorF(color));
             }
             return texture;
         }
@@ -382,7 +387,9 @@ namespace InteropToolsTestApp
             var width = 200;
             var height = 150;
 
-            var texture = CreateSolidColorTexture(width, height, Colors.Orange);
+            var color = Colors.Orange;
+            //color.A = 125;
+            var texture = CreateSolidColorTexture(width, height, color);
             CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
 
             _imageBrush.Surface = _imageSurface;

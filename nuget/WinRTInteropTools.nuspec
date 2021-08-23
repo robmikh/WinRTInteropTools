@@ -13,6 +13,7 @@
     <releaseNotes>Release notes:
 Version 0.0.10-prerelease:
 * Add Direct3D11RenderTargetView
+* Add DeviceLostWatcher
 
 Version 0.0.9-prerelease:
 * Add initial data to CreateTexture2D

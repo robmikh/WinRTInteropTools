@@ -132,7 +132,7 @@ namespace WinRTInteropTools
 
         void ClearRenderTargetView(
             Direct3D11RenderTargetView renderTargetView,
-            Windows.UI.Color color);
+            Single[] colorRGBA);
     }
 
     [default_interface]

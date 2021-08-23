@@ -60,14 +60,17 @@ namespace winrt::WinRTInteropTools::implementation
 
     void Direct3D11DeviceContext::ClearRenderTargetView(
         WinRTInteropTools::Direct3D11RenderTargetView const& renderTargetView, 
-        Windows::UI::Color const& color)
+        array_view<float const> colorRGBA)
     {
         CheckClosed();
 
-        std::array<float,4> colorf{ color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f  };
+        if (colorRGBA.size() != 4)
+        {
+            throw hresult_error(E_INVALIDARG, L"Expecting an array of 4 floats.");
+        }
 
         auto d3dRTV = GetDXGIInterfaceFromObject<ID3D11RenderTargetView>(renderTargetView);
-        m_deviceContext->ClearRenderTargetView(d3dRTV.get(), colorf.data());
+        m_deviceContext->ClearRenderTargetView(d3dRTV.get(), colorRGBA.data());
     }
 
     void Direct3D11DeviceContext::CopySubResourceRegionInternal(
