@@ -7,6 +7,11 @@ using namespace Windows::Graphics::DirectX;
 using namespace Windows::Graphics::DirectX::Direct3D11;
 using namespace Windows::UI::Composition;
 
+namespace util
+{
+    using namespace robmikh::common::uwp;
+}
+
 namespace winrt::WinRTInteropTools::implementation
 {
     SwapChain::SwapChain(
@@ -16,7 +21,7 @@ namespace winrt::WinRTInteropTools::implementation
         SizeInt32 const& size)
     {
         auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
-        m_swapChain = CreateDXGISwapChain(
+        m_swapChain = util::CreateDXGISwapChain(
             d3dDevice, 
             size.Width, 
             size.Height, 
@@ -46,7 +51,7 @@ namespace winrt::WinRTInteropTools::implementation
     {
         CheckClosed();
 
-        auto surface = CreateCompositionSurfaceForSwapChain(compositor, m_swapChain.get());
+        auto surface = util::CreateCompositionSurfaceForSwapChain(compositor, m_swapChain.get());
         return surface;
     }
 

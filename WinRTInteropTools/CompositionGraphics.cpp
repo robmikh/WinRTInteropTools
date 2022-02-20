@@ -9,6 +9,11 @@ using namespace Windows::Graphics;
 using namespace Windows::Graphics::DirectX;
 using namespace Windows::Graphics::DirectX::Direct3D11;
 
+namespace util
+{
+    using namespace robmikh::common::uwp;
+}
+
 namespace winrt::WinRTInteropTools::implementation
 {
     CompositionGraphicsDevice CompositionGraphics::CreateCompositionGraphicsDevice(
@@ -16,7 +21,7 @@ namespace winrt::WinRTInteropTools::implementation
         IDirect3DDevice const& device)
     {
         auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
-        auto graphicsDevice = ::CreateCompositionGraphicsDevice(compositor, d3dDevice.get());
+        auto graphicsDevice = util::CreateCompositionGraphicsDevice(compositor, d3dDevice.get());
         return graphicsDevice;
     }
 
@@ -35,10 +40,10 @@ namespace winrt::WinRTInteropTools::implementation
 
         auto width = d3dSurface.Description().Width;
         auto height = d3dSurface.Description().Height;
-        ::ResizeSurface(compositionSurface, SizeInt32{ width, height });
+        compositionSurface.Resize(SizeInt32{ width, height });
 
         POINT point = {};
-        auto dxgiSurface = SurfaceBeginDraw(compositionSurface, &point);
+        auto dxgiSurface = util::SurfaceBeginDraw(compositionSurface, &point);
         auto destination = dxgiSurface.as<ID3D11Texture2D>();
 
         {
@@ -46,21 +51,21 @@ namespace winrt::WinRTInteropTools::implementation
             d3dContext->CopySubresourceRegion(destination.get(), 0, point.x, point.y, 0, d3dSourceTexture.get(), 0, NULL);
         }
 
-        SurfaceEndDraw(compositionSurface);
+        util::SurfaceEndDraw(compositionSurface);
     }
 
     void CompositionGraphics::ResizeSurface(
         CompositionDrawingSurface const& compositionSurface, 
         Size const& size)
     {
-        ::ResizeSurface(compositionSurface, size);
+        util::ResizeSurface(compositionSurface, size);
     }
 
     void CompositionGraphics::ResizeSurface(
         CompositionDrawingSurface const& compositionSurface, 
         SizeInt32 const& size)
     {
-        ::ResizeSurface(compositionSurface, size);
+        compositionSurface.Resize(size);
     }
 
     IDirect3DDevice CompositionGraphics::GetRenderingDevice(

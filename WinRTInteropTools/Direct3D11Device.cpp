@@ -11,11 +11,21 @@ using namespace Windows::Graphics;
 using namespace Windows::Graphics::DirectX;
 using namespace Windows::Graphics::DirectX::Direct3D11;
 
+namespace util
+{
+    using namespace robmikh::common::uwp;
+}
+
 namespace winrt::WinRTInteropTools::implementation
 {
     Direct3D11Device::Direct3D11Device()
     {
-        m_d3dDevice = CreateD3DDevice();
+        m_d3dDevice = util::CreateD3DDevice();
+    }
+
+    Direct3D11Device::Direct3D11Device(WinRTInteropTools::Direct3D11DeviceCreationFlag const& flags)
+    {
+        m_d3dDevice = util::CreateD3DDevice(static_cast<uint32_t>(flags));
     }
 
     Direct3D11Device::Direct3D11Device(
@@ -75,7 +85,7 @@ namespace winrt::WinRTInteropTools::implementation
         CheckClosed();
 
         // Calculate the pitch
-        auto bytesPerPixel = GetBytesPerPixel(static_cast<DXGI_FORMAT>(description.Base.Format));
+        auto bytesPerPixel = util::GetBytesPerPixel(static_cast<DXGI_FORMAT>(description.Base.Format));
         auto pitch = description.Base.Width * bytesPerPixel;
 
         return CreateTexture2D(description, data, pitch);

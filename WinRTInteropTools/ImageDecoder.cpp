@@ -7,11 +7,16 @@ using namespace Windows::Graphics;
 using namespace Windows::Graphics::DirectX;
 using namespace Windows::Graphics::DirectX::Direct3D11;
 
+namespace util
+{
+    using namespace robmikh::common::uwp;
+}
+
 namespace winrt::WinRTInteropTools::implementation
 {
     ImageDecoder::ImageDecoder()
     {
-        m_wicFactory = CreateWICFactory();
+        m_wicFactory = util::CreateWICFactory();
     }
 
     IDirect3DSurface ImageDecoder::DecodeStreamIntoTexture(
@@ -22,7 +27,7 @@ namespace winrt::WinRTInteropTools::implementation
 
         auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
 
-        auto stream = CreateStreamOverRandomAccessStream(randomAccessStream);
+        auto stream = util::CreateStreamFromRandomAccessStream(randomAccessStream);
         com_ptr<IWICBitmapDecoder> wicBitmapDecoder;
         check_hresult(m_wicFactory->CreateDecoderFromStream(
             stream.get(),

@@ -28,10 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="direct3d11.interop.h" />
-    <ClInclude Include="d3dHelpers.h" />
-    <ClInclude Include="composition.interop.h" />
-    <ClInclude Include="streamHelpers.h" />
     <ClInclude Include="Direct3D11Device.h" />
     <ClInclude Include="Direct3D11Multithread.h" />
     <ClInclude Include="ImageDecoder.h" />

@@ -7,6 +7,11 @@ using namespace Windows::Graphics;
 using namespace Windows::Graphics::DirectX;
 using namespace Windows::Graphics::DirectX::Direct3D11;
 
+namespace util
+{
+    using namespace robmikh::common::uwp;
+}
+
 namespace winrt::WinRTInteropTools::implementation
 {
     auto PrepareStagingTexture(com_ptr<ID3D11Texture2D> const& texture)
@@ -56,37 +61,8 @@ namespace winrt::WinRTInteropTools::implementation
     com_array<uint8_t> Direct3D11Texture2D::GetBytes()
     {
         CheckClosed();
-        
-        auto stagingTexture = PrepareStagingTexture(m_texture);
-        D3D11_TEXTURE2D_DESC desc = {};
-        stagingTexture->GetDesc(&desc);
-
-        // Get the device and context
-        com_ptr<ID3D11Device> d3dDevice;
-        stagingTexture->GetDevice(d3dDevice.put());
-        com_ptr<ID3D11DeviceContext> d3dContext;
-        d3dDevice->GetImmediateContext(d3dContext.put());
-
-        // Determine texture properties
-        auto bytesPerPixel = GetBytesPerPixel(desc.Format);
-
-        // Copy the bits
-        D3D11_MAPPED_SUBRESOURCE mapped = {};
-        winrt::check_hresult(d3dContext->Map(stagingTexture.get(), 0, D3D11_MAP_READ, 0, &mapped));
-
-        std::vector<byte> bits(desc.Width * desc.Height * bytesPerPixel, 0);
-        auto source = reinterpret_cast<byte*>(mapped.pData);
-        auto dest = bits.data();
-        for (auto i = 0; i < (int)desc.Height; i++)
-        {
-            memcpy(dest, source, desc.Width * bytesPerPixel);
-
-            source += mapped.RowPitch;
-            dest += desc.Width * bytesPerPixel;
-        }
-        d3dContext->Unmap(stagingTexture.get(), 0);
-
-        return com_array<uint8_t>(bits);
+        auto bytes = util::CopyBytesFromTexture(m_texture);
+        return com_array<uint8_t>(bytes);
     }
 
     void Direct3D11Texture2D::Close()
