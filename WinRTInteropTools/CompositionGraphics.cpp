@@ -86,4 +86,35 @@ namespace winrt::WinRTInteropTools::implementation
         auto d3dDevice = GetDXGIInterfaceFromObject<ID3D11Device>(device);
         check_hresult(graphicsDeviceInterop->SetRenderingDevice(d3dDevice.get()));
     }
+
+    void CompositionGraphics::CopySurface(
+        CompositionDrawingSurface const& drawingSurface,
+        IDirect3DSurface const& resource, 
+        int32_t destinationOffsetX, 
+        int32_t destinationOffsetY, 
+        IReference<RectInt32> const& sourceRectangle)
+    {
+        auto interop = drawingSurface.as<ABI::Windows::UI::Composition::ICompositionDrawingSurfaceInterop2>();
+        auto destinationTexture = GetDXGIInterfaceFromObject<ID3D11Texture2D>(resource);
+        winrt::com_ptr<ID3D11Device> d3dDevice;
+        destinationTexture->GetDevice(d3dDevice.put());
+        auto multithread = d3dDevice.as<ID3D11Multithread>();
+
+        RECT rectSource = {};
+        std::optional<RectInt32> rectOpt = sourceRectangle;
+        RECT* rect = nullptr;
+        if (rectOpt.has_value())
+        {
+            rectSource.left = rectOpt.value().X;
+            rectSource.top = rectOpt.value().Y;
+            rectSource.right = rectSource.left + rectOpt.value().Width;
+            rectSource.bottom = rectSource.top + rectOpt.value().Height;
+            rect = &rectSource;
+        }
+
+        {
+            auto deviceLock = util::D3D11DeviceLock(multithread.get());
+            check_hresult(interop->CopySurface(destinationTexture.get(), destinationOffsetX, destinationOffsetY, rect));
+        }
+    }
 }

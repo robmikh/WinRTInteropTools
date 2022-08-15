@@ -427,6 +427,25 @@ namespace InteropToolsTestApp
             _imageBrush.Surface = _imageSurface;
         }
 
+        private void CopySurfaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            var width = 200;
+            var height = 150;
+            var texture = CreateSolidColorTexture(width, height, Colors.Red);
+            CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
+            using (var renderTargetView = _device.CreateRenderTargetView(texture))
+            {
+                _deviceContext.ClearRenderTargetView(renderTargetView, ConvertColorToColorF(Colors.Transparent));
+            }
+            CompositionGraphics.CopySurface(_imageSurface, texture, 0, 0, null);
+
+            // TODO: Create a helper to clear a surface
+            var clearedTexture = CreateSolidColorTexture(width, height, Colors.Transparent);
+            CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, clearedTexture, _imageSurface);
+
+            CompositionGraphics.CopyDirect3DSurfaceIntoCompositionSurface(_device, texture, _imageSurface);
+        }
+
         private Compositor _compositor;
         private CompositionGraphicsDevice _compositionGraphicsDevice;
         private Direct3D11Device _device;

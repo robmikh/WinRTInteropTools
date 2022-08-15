@@ -14,6 +14,7 @@ namespace winrt::WinRTInteropTools::implementation
         static void ResizeSurface(Windows::UI::Composition::CompositionDrawingSurface const& compositionSurface, Windows::Graphics::SizeInt32 const& size);
         static Windows::Graphics::DirectX::Direct3D11::IDirect3DDevice GetRenderingDevice(Windows::UI::Composition::CompositionGraphicsDevice const& compGraphics);
         static void SetRenderingDevice(Windows::UI::Composition::CompositionGraphicsDevice const& compGraphics, Windows::Graphics::DirectX::Direct3D11::IDirect3DDevice const& device);
+        static void CopySurface(winrt::Windows::UI::Composition::CompositionDrawingSurface const& drawingSurface, winrt::Windows::Graphics::DirectX::Direct3D11::IDirect3DSurface const& resource, int32_t destinationOffsetX, int32_t destinationOffsetY, winrt::Windows::Foundation::IReference<winrt::Windows::Graphics::RectInt32> const& sourceRectangle);
     };
 }
 

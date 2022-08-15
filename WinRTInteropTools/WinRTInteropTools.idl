@@ -249,6 +249,13 @@ namespace WinRTInteropTools
         static void SetRenderingDevice(
             Windows.UI.Composition.CompositionGraphicsDevice compGraphics,
             Windows.Graphics.DirectX.Direct3D11.IDirect3DDevice device);
+
+        static void CopySurface(
+            Windows.UI.Composition.CompositionDrawingSurface compositionSurface,
+            Windows.Graphics.DirectX.Direct3D11.IDirect3DSurface resource,
+            Int32 destinationOffsetX,
+            Int32 destinationOffsetY,
+            Windows.Foundation.IReference<Windows.Graphics.RectInt32> sourceRectangle);
     }
 
     namespace Desktop
