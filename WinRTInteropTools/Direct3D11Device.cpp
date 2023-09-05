@@ -88,7 +88,7 @@ namespace winrt::WinRTInteropTools::implementation
         auto bytesPerPixel = util::GetBytesPerPixel(static_cast<DXGI_FORMAT>(description.Base.Format));
         auto pitch = description.Base.Width * bytesPerPixel;
 
-        return CreateTexture2D(description, data, pitch);
+        return CreateTexture2D(description, data, static_cast<uint32_t>(pitch));
     }
 
     WinRTInteropTools::Direct3D11Texture2D Direct3D11Device::CreateTexture2D(
